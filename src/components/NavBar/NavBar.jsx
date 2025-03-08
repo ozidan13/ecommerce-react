@@ -25,55 +25,60 @@ function NavBar() {
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {token ? <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to={"home"}>Home</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link active" aria-current="page" to={"products"}>Products</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to={"categories"}>Categories</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to={"brands"}>Brands</Link>
-              </li>
-            </ul> : null}
+              {token ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link active" aria-current="page" to={"categories"}>Categories</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link active" aria-current="page" to={"brands"}>Brands</Link>
+                  </li>
+                </>
+              ) : null}
+            </ul>
 
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-
               <li className="nav-item d-flex align-items-center gap-2">
-                <i class="fa-brands fa-instagram"></i>
-                <i class="fa-brands fa-facebook"></i>
-                <i class="fa-brands fa-linkedin-in"></i>
+                <i className="fa-brands fa-instagram"></i>
+                <i className="fa-brands fa-facebook"></i>
+                <i className="fa-brands fa-linkedin-in"></i>
               </li>
 
-
-              {token ? <><li className="nav-item">
-                <button className="nav-link active" onClick={logout}>LogOut</button>
-              </li>
-                <li className="nav-item position-relative">
-                  <Link className="nav-link active" aria-current="page" to={"carts"}><i className='fa fa-shopping-cart text-main'></i><span className='p-1 rounded bg-main text-white position-absolute top-0 end-5'>{totalCartItem}</span></Link>
-                </li>
-              </>
-                : <>
+              {token ? (
+                <>
+                  <li className="nav-item">
+                    <button className="nav-link active" onClick={logout}>LogOut</button>
+                  </li>
+                  <li className="nav-item position-relative">
+                    <Link className="nav-link active" aria-current="page" to={"carts"}>
+                      <i className='fa fa-shopping-cart text-main'></i>
+                      <span className='p-1 rounded bg-main text-white position-absolute top-0 end-5'>{totalCartItem}</span>
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
                   <li className="nav-item">
                     <Link className="nav-link active" aria-current="page" to={"register"}>Register</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link active" aria-current="page" to={"signin"}>LogIn</Link>
                   </li>
-                </>}
-
+                </>
+              )}
             </ul>
           </div>
         </div>
       </nav>
     </>
-
   )
 }
-
-
 
 export default NavBar;

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { BallTriangle } from 'react-loader-spinner';
 import Slider from 'react-slick';
 import { cartContext } from '../../context/cartContext';
@@ -11,6 +11,7 @@ export default function ProductDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const isLoggedIn = localStorage.getItem("userToken") !== null;
     
     // Get the product ID from URL params
     const { id } = useParams();
@@ -58,6 +59,13 @@ export default function ProductDetails() {
     
     // Add to cart function
     async function handleAddToCart(productId) {
+        if (!isLoggedIn) {
+            toast.error('Please sign in to add products to cart', {
+                style: { backgroundColor: "orange", color: "#fff" },
+            });
+            return;
+        }
+        
         if (!productId) {
             toast.error('Invalid product ID', {
                 style: { backgroundColor: "red", color: "#fff" },
@@ -164,17 +172,23 @@ export default function ProductDetails() {
                             {product.ratingsAverage}
                         </p>
                     </div>
-                    <button 
-                        onClick={() => handleAddToCart(product._id)} 
-                        className='bg-main rounded text-white d-block py-1 w-100'
-                        disabled={isAddingToCart}
-                    >
-                        {isAddingToCart ? (
-                            <><i className="fa fa-spinner fa-spin me-2"></i>Adding...</>
-                        ) : (
-                            'Add to cart'
-                        )}
-                    </button>
+                    {isLoggedIn ? (
+                        <button 
+                            onClick={() => handleAddToCart(product._id)} 
+                            className='bg-main rounded text-white d-block py-1 w-100'
+                            disabled={isAddingToCart}
+                        >
+                            {isAddingToCart ? (
+                                <><i className="fa fa-spinner fa-spin me-2"></i>Adding...</>
+                            ) : (
+                                'Add to cart'
+                            )}
+                        </button>
+                    ) : (
+                        <Link to="/signin" className='btn btn-outline-secondary d-block py-1 w-100'>
+                            Sign in to add to cart
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

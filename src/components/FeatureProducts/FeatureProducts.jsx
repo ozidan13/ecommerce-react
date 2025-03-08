@@ -9,9 +9,17 @@ import { cartContext } from '../../context/cartContext';
 export default function FeatureProducts() {
     const [isAddingToCart, setIsAddingToCart] = useState({});
     const { addToCart, setTotalCartItem } = useContext(cartContext);
+    const isLoggedIn = localStorage.getItem("userToken") !== null;
 
     // Function to add product to cart
     async function handleAddToCart(id) {
+        if (!isLoggedIn) {
+            toast.error('Please sign in to add products to cart', {
+                style: { backgroundColor: "orange", color: "#fff" },
+            });
+            return;
+        }
+
         if (!id) {
             toast.error('Invalid product ID', {
                 style: { backgroundColor: "red", color: "#fff" },
@@ -124,17 +132,23 @@ export default function FeatureProducts() {
                                     </p>
                                 </div>
                             </Link>
-                            <button 
-                                onClick={() => handleAddToCart(product._id)} 
-                                className='bg-main rounded text-white d-block me-auto w-75 m-auto'
-                                disabled={isAddingToCart[product._id]}
-                            >
-                                {isAddingToCart[product._id] ? (
-                                    <><i className="fa fa-spinner fa-spin me-2"></i>Adding...</>
-                                ) : (
-                                    'Add to cart'
-                                )}
-                            </button>
+                            {isLoggedIn ? (
+                                <button 
+                                    onClick={() => handleAddToCart(product._id)} 
+                                    className='bg-main rounded text-white d-block me-auto w-75 m-auto'
+                                    disabled={isAddingToCart[product._id]}
+                                >
+                                    {isAddingToCart[product._id] ? (
+                                        <><i className="fa fa-spinner fa-spin me-2"></i>Adding...</>
+                                    ) : (
+                                        'Add to cart'
+                                    )}
+                                </button>
+                            ) : (
+                                <Link to="/signin" className='btn btn-outline-secondary d-block me-auto w-75 m-auto'>
+                                    Sign in to add to cart
+                                </Link>
+                            )}
                         </div>
                     </div>
                 ))}

@@ -24,6 +24,8 @@ function App() {
       path: "", element: <LayOut />, children: [
         { index: true, element: <ProtectedRoutes><Home /> </ProtectedRoutes> },
         { path: "register", element: <ProtectedRoutesReverse><Register /></ProtectedRoutesReverse> },
+        { path: "home", element: <ProtectedRoutes><Home /></ProtectedRoutes>},
+        { path: "fe-ecommerce-react", element: <ProtectedRoutes><Home /> </ProtectedRoutes> },
         { path: "signin", element: <ProtectedRoutesReverse><Signin /></ProtectedRoutesReverse> },
         { path: "brands", element: <ProtectedRoutes><Brands /></ProtectedRoutes> },
         { path: "categories", element: <ProtectedRoutes><Categories /> </ProtectedRoutes> },

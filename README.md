@@ -88,12 +88,12 @@ src/
 ### Installation Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/hager1nady/fe-ecommerce-react.git
+   git clone https://github.com/ozidan13/ecommerce-react.git
    ```
 
 2. Navigate to project directory:
    ```bash
-   cd fe-ecommerce-react
+   cd ecommerce-react
    ```
 
 3. Install dependencies:

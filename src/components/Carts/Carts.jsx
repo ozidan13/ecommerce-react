@@ -9,17 +9,27 @@ import { Link } from 'react-router-dom'
 export default function Carts(props) {
 
     let [cart, setCart] = useState({})
+    let [totalQuantity, setTotalQuantity] = useState(0)
     let { getCart, removeSpecificProductFromCart, updateProductQuantity,setTotalCartItem } = useContext(cartContext)
+    
+    // Calculate total quantity from all products
+    const calculateTotalQuantity = (cartData) => {
+        if (!cartData?.data?.products) return 0;
+        return cartData.data.products.reduce((total, item) => total + item.count, 0);
+    }
+    
     async function getCartDetails() {
         let { data } = await getCart()
         setTotalCartItem(data.numOfCartItems)
         setCart(data)
+        setTotalQuantity(calculateTotalQuantity(data))
     }
 
     async function deleteProductFromCart(id) {
         let { data } = await removeSpecificProductFromCart(id)
         setCart(data)
         setTotalCartItem(data.numOfCartItems)
+        setTotalQuantity(calculateTotalQuantity(data))
     }
 
     async function updateProductCount(id, count) {
@@ -31,6 +41,7 @@ export default function Carts(props) {
             }
         })
         setCart(data)
+        setTotalQuantity(calculateTotalQuantity(data))
     }
 
 
@@ -50,7 +61,7 @@ export default function Carts(props) {
                     <h3>Cart Shop</h3>
                     <div className='d-flex justify-content-between align-items-center my-3'>
                         <h3 className='h5'>Total Price : <span className='text-main'>{cart?.data?.totalCartPrice} EGP</span></h3>
-                        <h3 className='h5'>Total Numbers : <span className='text-main'>{cart?.numOfCartItems}</span></h3>
+                        <h3 className='h5'>Total Numbers : <span className='text-main'>{totalQuantity}</span></h3>
                     </div>
 
                     {cart.data.products.map((ele) => <div key={ele._id} className="row py-3 border-bottom">

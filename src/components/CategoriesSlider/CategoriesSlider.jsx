@@ -28,7 +28,7 @@ export default function CategoriesSlider() {
                 <h2>Shoo Populer Categories</h2>
                 <Slider {...settings}>
                     {categories.map((category) =>
-                        <div className="category px-1" key={category.id}>
+                        <div className="category px-1" key={category._id}>
                             <img className='w-100' height={200} src={category.image} alt="" />
                             <h5>{category.name}</h5>
                         </div>)}
